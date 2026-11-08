@@ -33,7 +33,7 @@ while True:
             sys.exit()
 
     ball_x += ball_speed_x
-    ball_speed_y += ball_speed_y
+    ball_y += ball_speed_y
 
 
     if ball_x-ball_radius <0 or ball_x + ball_radius>WIDTH:
