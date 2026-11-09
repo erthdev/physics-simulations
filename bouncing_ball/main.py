@@ -4,7 +4,6 @@ Computational Physics: Interactive Bouncing Ball Simulation
 """
 
 import pygame
-import sys
 
 pygame.init()
 
@@ -21,16 +20,14 @@ FPS = 60
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 
-ball_radius = 20
+ball_radius = 30
 
 ball_x = WIDTH//2
 ball_y = WIDTH//100
-ball_speed_x = 5
-ball_speed_y = 5
 
 velocity_y = 0
 gravity = 0.5
-bounce = 0.8
+bounce = 0.5
 floor_y = HEIGHT - ball_radius
 
 running = True
@@ -48,7 +45,7 @@ while running:
 
     # Bounce off the floor
     if ball_y >= floor_y:
-        y = floor_y
+        ball_y = floor_y
         velocity_y = -velocity_y * bounce
 
         # Stop tiny, endless bounces
