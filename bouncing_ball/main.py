@@ -8,11 +8,15 @@ import sys
 
 pygame.init()
 
-WIDTH, HEIGHT = 1100, 720
-FPS = 60
+# CONSTANTS
 
+WIDTH, HEIGHT = 1100, 720
+
+clock = pygame.time.Clock()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Interactive Bouncing Ball Simulation")
+
+FPS = 60
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -20,30 +24,41 @@ WHITE = (255,255,255)
 ball_radius = 20
 
 ball_x = WIDTH//2
-ball_y = HEIGHT//2
+ball_y = WIDTH//100
 ball_speed_x = 5
 ball_speed_y = 5
 
-clock = pygame.time.Clock()
+velocity_y = 0
+gravity = 0.5
+bounce = 0.8
+floor_y = HEIGHT - ball_radius
 
-while True:
+running = True
+
+# Main loop
+while running:
+    clock.tick(FPS)
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            running = False
 
-    ball_x += ball_speed_x
-    ball_y += ball_speed_y
+    velocity_y += gravity
+    ball_y += velocity_y
 
+    # Bounce off the floor
+    if ball_y >= floor_y:
+        y = floor_y
+        velocity_y = -velocity_y * bounce
 
-    if ball_x-ball_radius <0 or ball_x + ball_radius>WIDTH:
-        ball_speed_x = -ball_speed_x
-    if ball_y-ball_radius <0 or ball_y + ball_radius>HEIGHT:
-        ball_speed_y = -ball_speed_y
+        # Stop tiny, endless bounces
+        if abs(velocity_y) < 1:
+            velocity_y = 0
+    
+
 
     SCREEN.fill(BLACK)
     pygame.draw.circle(SCREEN,WHITE,(ball_x,ball_y),ball_radius)
     pygame.display.flip()
 
-    clock.tick(60)
-
+pygame.quit()
